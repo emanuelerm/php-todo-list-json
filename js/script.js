@@ -29,19 +29,12 @@ createApp({
     createList() {
       axios.get(this.apiUrl).then((res) => {
         this.list = res.data;
-        console.log(this.list);
       });
     },
     addNewEl() {
-      // const elToPush = {
-      //   text: this.el,
-      //   done: false,
-      // };
-      // this.list.push(elToPush);
-      // this.el = "";
       const data = {
         element: this.el,
-        done: this.done,
+        done: false,
       };
       axios
         .post(this.apiUrl, data, {
@@ -50,17 +43,29 @@ createApp({
         .then((res) => {
           this.el = "";
           this.list = res.data;
+          console.log(this.list);
         });
     },
-    taked(index) {
-      if (this.list[index].done === true) {
-        this.list[index].done = false;
-      } else {
-        this.list[index].done = true;
-      }
+    done(index) {
+      const newValue = !this.list[index].done;
+      axios
+        .post(
+          this.apiUrl,
+          {
+            element: this.el,
+            done: newValue,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+        .then((res) => {
+          res.data[index].done = newValue;
+          this.list[index].done = newValue;
+        });
     },
-    removeEl(index) {
-      this.list.splice(index, 1);
+    delete(index) {
+      // this.list.splice(index, 1);
     },
   },
   mounted() {

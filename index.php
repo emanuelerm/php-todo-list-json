@@ -52,7 +52,7 @@
                                             <i class="fa-sharp fa-solid fa-check fs-6"></i>
                                         </button>
                                         <button type="button" class="btn btn-outline-danger btn-sm lh-1"
-                                            @click="delete(index)">
+                                            @click="deleted(index)">
                                             <i class="fa-sharp fa-solid fa-xmark fs-6"></i>
                                         </button>
                                     </div>

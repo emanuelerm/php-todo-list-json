@@ -34,7 +34,6 @@ createApp({
     addNewEl() {
       const data = {
         element: this.el,
-        done: false,
       };
       axios
         .post(this.apiUrl, data, {
@@ -43,29 +42,31 @@ createApp({
         .then((res) => {
           this.el = "";
           this.list = res.data;
-          console.log(this.list);
         });
     },
     done(index) {
-      const newValue = !this.list[index].done;
+      const data = {
+        updateData: index,
+      };
       axios
-        .post(
-          this.apiUrl,
-          {
-            element: this.el,
-            done: newValue,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        )
+        .post(this.apiUrl, data, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         .then((res) => {
-          res.data[index].done = newValue;
-          this.list[index].done = newValue;
+          this.list = res.data;
         });
     },
-    delete(index) {
-      // this.list.splice(index, 1);
+    deleted(index) {
+      const data = {
+        deletedData: index,
+      };
+      axios
+        .post(this.apiUrl, data, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          this.list = res.data;
+        });
     },
   },
   mounted() {
